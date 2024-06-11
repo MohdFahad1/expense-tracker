@@ -14,7 +14,7 @@ const Header = () => {
             width={55}
             className="w-[50px] h-[50px]"
           />
-          <h1 className="text-xl md:text-2xl font-semibold text-[#8153AC]">
+          <h1 className="text-xl md:text-2xl font-semibold text-primary">
             Budget Tracker
           </h1>
         </div>
