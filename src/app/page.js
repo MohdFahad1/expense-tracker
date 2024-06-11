@@ -1,5 +1,10 @@
+import Header from "@/_components/Header";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  return <Button>Get Started</Button>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
