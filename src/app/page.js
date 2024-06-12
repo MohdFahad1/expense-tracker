@@ -1,5 +1,6 @@
 import Header from "@/_components/Header";
 import Hero from "@/_components/Hero";
+import Newsletter from "@/_components/Newsletter";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
     <>
       <Header />
       <Hero />
+      <Newsletter />
     </>
   );
 }

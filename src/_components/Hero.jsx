@@ -29,7 +29,7 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center  px-5 md:px-0">
+        <div className="flex justify-center items-center  px-5 md:px-0 pb-10">
           <Image
             src={"/dashboard.png"}
             alt="dashboard"
