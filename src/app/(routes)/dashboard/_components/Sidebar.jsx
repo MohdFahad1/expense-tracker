@@ -1,5 +1,9 @@
+"use client";
+
 import { LayoutGrid, PiggyBank, ReceiptText, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
@@ -14,21 +18,23 @@ const Sidebar = () => {
       id: "2",
       name: "Budgets",
       icon: PiggyBank,
-      path: "/budgets",
+      path: "/dashboard/budgets",
     },
     {
       id: "3",
       name: "Expenses",
       icon: ReceiptText,
-      path: "/receipt",
+      path: "/dashboard/expenses",
     },
     {
       id: "4",
       name: "Upgrade",
       icon: ShieldCheck,
-      path: "/upgrade",
+      path: "/dashboard/upgrade",
     },
   ];
+
+  const path = usePathname();
 
   return (
     <div className="h-screen p-5 border-2">
@@ -37,11 +43,18 @@ const Sidebar = () => {
         <h1 className="text-2xl font-semibold text-primary">Budget Tracker</h1>
       </div>
       <div className="mt-5">
-        {menuList.map((items, index) => (
-          <h2 className="text-xl text-gray-500 font-medium flex gap-1 items-center cursor-pointer hover:text-primary hover:bg-blue-100 rounded-md px-4 py-3 mt-2">
-            <items.icon />
-            {items.name}
-          </h2>
+        {menuList.map((items) => (
+          <Link href={items.path}>
+            <h2
+              className={`text-xl text-gray-500 font-medium flex gap-1 items-center cursor-pointer hover:text-primary hover:bg-blue-100 rounded-md px-4 py-3 mt-2 ${
+                path == items.path && "text-primary bg-blue-100"
+              }`}
+              key={items.id}
+            >
+              <items.icon />
+              {items.name}
+            </h2>
+          </Link>
         ))}
       </div>
       <div className="fixed bottom-10">
