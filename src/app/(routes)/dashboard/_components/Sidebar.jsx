@@ -44,12 +44,11 @@ const Sidebar = () => {
       </div>
       <div className="mt-5">
         {menuList.map((items) => (
-          <Link href={items.path}>
+          <Link href={items.path} key={items.id}>
             <h2
               className={`text-xl text-gray-500 font-medium flex gap-1 items-center cursor-pointer hover:text-primary hover:bg-blue-100 rounded-md px-4 py-3 mt-2 ${
                 path == items.path && "text-primary bg-blue-100"
               }`}
-              key={items.id}
             >
               <items.icon />
               {items.name}
