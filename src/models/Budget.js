@@ -6,6 +6,10 @@ const BudgetSchema = new Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     emoji: {
       type: String,
     },
