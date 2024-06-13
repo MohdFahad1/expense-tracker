@@ -9,19 +9,28 @@ export async function POST(req) {
     const { username, email, password } = await req.json();
 
     if (!username) {
-      return new Response(JSON.stringify({ error: "Username is required" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ success: false, message: "Username is required" }),
+        {
+          status: 404,
+        }
+      );
     }
     if (!email) {
-      return new Response(JSON.stringify({ error: "Email is required" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ success: false, message: "Email is required" }),
+        {
+          status: 404,
+        }
+      );
     }
     if (!password) {
-      return new Response(JSON.stringify({ error: "Password is required" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ success: false, message: "Password is required" }),
+        {
+          status: 404,
+        }
+      );
     }
 
     const existingUser = await UserModel.findOne({ email });
