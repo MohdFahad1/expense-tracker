@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Hero = () => {
@@ -20,12 +21,12 @@ const Hero = () => {
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a
+              <Link
                 className="block w-full rounded bg-[#4845D2] px-12 py-3 text-sm font-medium text-white shadow hover:bg-[#413EBD] focus:outline-none focus:ring sm:w-auto"
-                href="#"
+                href={"/signup"}
               >
                 Get Started
-              </a>
+              </Link>
             </div>
           </div>
         </div>
