@@ -1,23 +1,23 @@
 import UserModel from "@/models/User";
 import { comparePassword } from "@/helpers/authHelper";
 import dbConnect from "@/lib/dbConnect";
-import JWT from "jsonwebtoken";
+import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
-export async function POST(req) {
-  await dbConnect();
+dbConnect();
 
+export async function POST(NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const body = await NextRequest.json();
+    const { email, password } = body;
 
     if (!email || !password) {
       return new Response(
         JSON.stringify({
           success: false,
-          message: "Invalid Email or Password",
+          message: "Email and Password is required",
         }),
-        {
-          status: 404,
-        }
+        { status: 401 }
       );
     }
 
@@ -28,54 +28,48 @@ export async function POST(req) {
         JSON.stringify(
           {
             success: false,
-            message: "Email is not Registered",
+            message: "Email not registered",
           },
-          { status: 404 }
+          { status: 400 }
         )
       );
     }
 
-    const match = await comparePassword(password, user.password);
+    const validPassword = await comparePassword(password, user.password);
 
-    if (!match) {
+    if (!validPassword) {
       return new Response(
         JSON.stringify(
           {
             success: false,
             message: "Incorrect Password",
           },
-          { status: 200 }
+          { status: 400 }
         )
       );
     }
 
-    //token
-    const token = await JWT.sign(
-      { _id: user._id },
-      process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const tokenData = {
+      username: user.username,
+      id: user._id,
+    };
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Login Successfull",
-        user: {
-          username: user.username,
-          email: user.email,
-        },
-        token,
-      })
-    );
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
+
+    const response = NextResponse.json({ message: "Login Successfull" });
+
+    response.cookies.set("token", token, { httpOnly: true });
+
+    return response;
   } catch (error) {
-    console.error("Error registering user: ", error);
+    console.error("Error in Logging: ", error);
 
     return new Response(
       JSON.stringify({
         success: false,
-        message: "Error in logging",
+        message: "Something went wrong",
         error: error.message,
       }),
       { status: 500 }

@@ -1,35 +1,26 @@
 import { NextResponse } from "next/server";
-import { jwtVerify } from "jose";
 
-export default async function middleware(req) {
-  try {
-    const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+// This function can be marked `async` if using `await` inside
+export function middleware(request) {
+  const path = request.nextUrl.pathname;
 
-    console.log("Token: ", token);
+  console.log(path);
 
-    if (!token) {
-      // return NextResponse.redirect(new URL("/", req.url));
-      return new NextResponse("Invalid Token", {
-        status: 401,
-      });
-    }
+  const isPublicPath = path === "/" || path === "/signin" || path === "/signup";
+  const token = request.cookies.get("token")?.value || "";
 
-    const secret = new TextEncoder().encode(
-      process.env.NEXT_PUBLIC_JWT_SECRET_KEY
-    );
-    const { payload } = await jwtVerify(token, secret);
+  console.log(isPublicPath, token);
 
-    console.log("Decoded Token: ", payload);
+  if (isPublicPath && token) {
+    return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+  }
 
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  } catch (error) {
-    console.error("Error: ", error);
-    return new NextResponse("Error in Middleware", {
-      status: 401,
-    });
+  if (!isPublicPath && !token) {
+    return NextResponse.redirect(new URL("/signin", request.nextUrl));
   }
 }
 
+// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard"],
 };

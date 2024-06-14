@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import Header from "@/_components/Header";
-import Footer from "@/_components/Footer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -26,12 +24,6 @@ const page = () => {
 
       if (res.data.success) {
         toast(res.data.message);
-
-        localStorage.setItem("token", res.data.token);
-        // Set the token in the Authorization header for subsequent requests
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${res.data.token}`;
         router.push("/dashboard");
       } else {
         toast(res.data.message);
