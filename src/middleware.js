@@ -11,7 +11,7 @@ export function middleware(request) {
 
   console.log(isPublicPath, token);
 
-  if (isPublicPath && token) {
+  if (isPublicPath && token && path.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
   }
 
@@ -22,5 +22,5 @@ export function middleware(request) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/dashboard"],
+  matcher: ["/dashboard/:path*"],
 };

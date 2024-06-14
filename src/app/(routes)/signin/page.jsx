@@ -22,7 +22,7 @@ const page = () => {
         password,
       });
 
-      if (res.data.success) {
+      if (res.status === 200) {
         toast(res.data.message);
         router.push("/dashboard");
       } else {
