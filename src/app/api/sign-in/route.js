@@ -50,9 +50,13 @@ export async function POST(req) {
     }
 
     //token
-    const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = await JWT.sign(
+      { _id: user._id },
+      process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     return new Response(
       JSON.stringify({

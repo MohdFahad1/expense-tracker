@@ -14,14 +14,14 @@ export default async function middleware(req) {
       });
     }
 
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const secret = new TextEncoder().encode(
+      process.env.NEXT_PUBLIC_JWT_SECRET_KEY
+    );
     const { payload } = await jwtVerify(token, secret);
 
     console.log("Decoded Token: ", payload);
 
-    return new NextResponse("Authorized Successfully", {
-      status: 200,
-    });
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   } catch (error) {
     console.error("Error: ", error);
     return new NextResponse("Error in Middleware", {
