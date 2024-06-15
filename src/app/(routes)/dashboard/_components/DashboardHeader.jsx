@@ -14,6 +14,7 @@ const DashboardHeader = () => {
 
       if (res.status === 200) {
         toast(res.data.message);
+        localStorage.setItem("auth", "");
         router.push("/");
       } else {
         toast(res.data.message);

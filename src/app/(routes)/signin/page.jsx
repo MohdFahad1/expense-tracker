@@ -25,7 +25,7 @@ const page = () => {
         password,
       });
 
-      console.log("RESPONSE: ", res.data.tokenData);
+      console.log("RESPONSE: ", res);
 
       if (res.status === 200) {
         toast(res.data.message);
