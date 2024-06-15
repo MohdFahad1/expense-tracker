@@ -6,9 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { UserRound } from "lucide-react";
 
 const Sidebar = () => {
   const [auth, setAuth] = useAuth();
+
+  // console.log(JSON.stringify({ auth }));
   const menuList = [
     {
       id: "1",
@@ -59,7 +62,16 @@ const Sidebar = () => {
         ))}
       </div>
       <div className="fixed bottom-10">
-        <pre className="px-4">{JSON.stringify(auth, null, 4)}</pre>
+        <div className="flex items-center gap-2 cursor-pointer">
+          <UserRound
+            className="border-2 border-primary rounded-full"
+            size={30}
+            color="rgb(72, 69, 210)"
+          />
+          <h1 className="capitalize text-xl font-medium text-gray-500">
+            {auth.user?.username}
+          </h1>
+        </div>
       </div>
     </div>
   );
