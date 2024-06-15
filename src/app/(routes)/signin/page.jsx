@@ -7,11 +7,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import axios from "axios";
+import { useAuth } from "@/context/auth";
 
 const page = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [auth, setAuth] = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +25,16 @@ const page = () => {
         password,
       });
 
+      console.log("RESPONSE: ", res.data.tokenData);
+
       if (res.status === 200) {
         toast(res.data.message);
+        setAuth({
+          ...auth,
+          user: res.data.tokenData,
+          token: res.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(res.data));
         router.push("/dashboard");
       } else {
         toast(res.data.message);

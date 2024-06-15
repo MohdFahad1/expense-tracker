@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/context/auth";
 import { LayoutGrid, PiggyBank, ReceiptText, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
+  const [auth, setAuth] = useAuth();
   const menuList = [
     {
       id: "1",
@@ -57,7 +59,7 @@ const Sidebar = () => {
         ))}
       </div>
       <div className="fixed bottom-10">
-        <h1 className="px-4">USER PROFILE</h1>
+        <pre className="px-4">{JSON.stringify(auth, null, 4)}</pre>
       </div>
     </div>
   );
