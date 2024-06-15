@@ -11,7 +11,6 @@ import { UserRound } from "lucide-react";
 const Sidebar = () => {
   const [auth, setAuth] = useAuth();
 
-  // console.log(JSON.stringify({ auth }));
   const menuList = [
     {
       id: "1",

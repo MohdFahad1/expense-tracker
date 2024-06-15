@@ -12,12 +12,36 @@ import {
 import EmojiPicker from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { useAuth } from "@/context/auth";
+import { toast } from "sonner";
 
 const CreateBudget = () => {
+  const [auth] = useAuth();
   const [emoji, setEmoji] = useState("😊");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [budgetName, setBudgetName] = useState();
   const [amount, setAmount] = useState();
+
+  const userId = auth.user?.id;
+
+  const handleCreateBudget = async () => {
+    try {
+      const res = await axios.post("/api/budget", {
+        name: budgetName,
+        amount,
+        emoji,
+        userId,
+      });
+
+      if (res.status === 200) {
+        toast(res.data.message);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
   return (
     <div>
       <Dialog>
@@ -69,6 +93,7 @@ const CreateBudget = () => {
               <Button
                 className="w-full mt-5"
                 disabled={!(budgetName && amount)}
+                onClick={handleCreateBudget}
               >
                 Create Budget
               </Button>

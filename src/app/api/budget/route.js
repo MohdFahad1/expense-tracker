@@ -8,8 +8,6 @@ export async function POST(NextRequest) {
     const body = await NextRequest.json();
     let { name, userId, emoji, amount } = body;
 
-    name = name.toLowerCase().trim();
-
     if (!name || !userId || !amount) {
       return new Response(
         JSON.stringify({
@@ -19,6 +17,8 @@ export async function POST(NextRequest) {
         { status: 401 }
       );
     }
+
+    name = name.trim().toLowerCase();
 
     const existingBudget = await BudgetModel.findOne({
       name,
