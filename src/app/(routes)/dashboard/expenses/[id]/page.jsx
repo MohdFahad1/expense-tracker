@@ -4,9 +4,12 @@ import React, { useEffect, useState } from "react";
 import BudgetItem from "../../budgets/_components/BudgetItem";
 import axios from "axios";
 import AddExpense from "../_components/AddExpense";
+import ExpenseListTable from "../_components/ExpenseListTable";
 
 const Expenses = ({ params }) => {
   const [budgetData, setBudgetData] = useState();
+  const [expenseList, setExpenseList] = useState([]);
+
   useEffect(() => {
     fetchSingleBudget();
   }, [params]);
@@ -41,7 +44,11 @@ const Expenses = ({ params }) => {
           <div className="h-[145px] w-full bg-slate-200 rounded-lg animate-pulse"></div>
         )}
 
-        <AddExpense />
+        <AddExpense budgetId={params.id} />
+      </div>
+      <div>
+        <h2 className="font-bold text-lg">Latest Expenses</h2>
+        <ExpenseListTable expenseList={expenseList} />
       </div>
     </div>
   );

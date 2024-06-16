@@ -1,10 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
-const AddExpense = () => {
+const AddExpense = ({ budgetId }) => {
   const [name, setName] = useState();
   const [amount, setAmount] = useState();
+
+  const handleCreateExpense = async () => {
+    try {
+      const response = await axios.post(`/api/expense`, {
+        name,
+        amount,
+        budgetId,
+      });
+
+      if (response) {
+        toast(response.data.message);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
 
   return (
     <div className="border rounded-lg p-5">
@@ -26,7 +44,11 @@ const AddExpense = () => {
           onChange={(e) => setAmount(e.target.value)}
         />
       </div>
-      <Button disabled={!(name && amount)} className="mt-3 w-full">
+      <Button
+        disabled={!(name && amount)}
+        className="mt-3 w-full"
+        onClick={handleCreateExpense}
+      >
         Add Expense
       </Button>
     </div>
