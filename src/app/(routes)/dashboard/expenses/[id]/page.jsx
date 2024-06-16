@@ -8,7 +8,6 @@ import ExpenseListTable from "../_components/ExpenseListTable";
 
 const Expenses = ({ params }) => {
   const [budgetData, setBudgetData] = useState();
-  const [expenseList, setExpenseList] = useState([]);
 
   useEffect(() => {
     fetchSingleBudget();
@@ -35,7 +34,7 @@ const Expenses = ({ params }) => {
   };
 
   return (
-    <div className="p-10">
+    <div className="p-5 md:p-10">
       <h2 className="text-3xl font-bold">My Expenses</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
         {budgetData ? (
@@ -48,7 +47,7 @@ const Expenses = ({ params }) => {
       </div>
       <div>
         <h2 className="font-bold text-lg">Latest Expenses</h2>
-        <ExpenseListTable expenseList={expenseList} />
+        <ExpenseListTable budgetId={params.id} />
       </div>
     </div>
   );

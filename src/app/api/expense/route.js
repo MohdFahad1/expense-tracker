@@ -22,6 +22,7 @@ export async function POST(NextRequest) {
 
     const existingExpense = await ExpenseModel.findOne({
       name,
+      budgetId,
     });
 
     if (existingExpense) {
