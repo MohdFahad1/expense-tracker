@@ -1,7 +1,23 @@
+import axios from "axios";
 import { Trash } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 
 const ExpenseListTable = ({ expenseList }) => {
+  const handleDeleteExpense = async (expenseId) => {
+    try {
+      const response = await axios.delete(
+        `/api/deleteExpense?expenseId=${expenseId}`
+      );
+
+      if (response.status === 200) {
+        toast(response.data.message);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
 
@@ -26,7 +42,10 @@ const ExpenseListTable = ({ expenseList }) => {
           <h2>${expense.amount}</h2>
           <h2>{formatDate(expense.createdAt)}</h2>
           <h2>
-            <Trash className="text-red-600" />
+            <Trash
+              className="text-red-600"
+              onClick={() => handleDeleteExpense(expense._id)}
+            />
           </h2>
         </div>
       ))}
