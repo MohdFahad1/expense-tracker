@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -16,7 +18,7 @@ import axios from "axios";
 import { useAuth } from "@/context/auth";
 import { toast } from "sonner";
 
-const CreateBudget = () => {
+const CreateBudget = ({ refreshData }) => {
   const [auth] = useAuth();
   const [emoji, setEmoji] = useState("😊");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
@@ -25,7 +27,7 @@ const CreateBudget = () => {
 
   const userId = auth.user?.id;
 
-  const handleCreateBudget = async () => {
+  const handleCreateBudget = async ({ refreshData }) => {
     try {
       const res = await axios.post("/api/budget", {
         name: budgetName,
@@ -34,8 +36,9 @@ const CreateBudget = () => {
         userId,
       });
 
-      if (res.status === 200) {
-        toast(res.data.message);
+      if (res) {
+        refreshData();
+        toast("New Budget Created!");
       }
     } catch (error) {
       console.log("Error: ", error);
@@ -62,7 +65,7 @@ const CreateBudget = () => {
               >
                 {emoji}
               </Button>
-              <div className="absolute">
+              <div className="absolute z-20">
                 <EmojiPicker
                   open={openEmojiPicker}
                   onEmojiClick={(e) => {
@@ -90,6 +93,10 @@ const CreateBudget = () => {
                   onChange={(e) => setAmount(e.target.value)}
                 />
               </div>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
               <Button
                 className="w-full mt-5"
                 disabled={!(budgetName && amount)}
@@ -97,8 +104,8 @@ const CreateBudget = () => {
               >
                 Create Budget
               </Button>
-            </DialogDescription>
-          </DialogHeader>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

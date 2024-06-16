@@ -11,35 +11,33 @@ const BudgetList = () => {
   const [budgets, setBudgets] = useState([]);
 
   useEffect(() => {
-    const fetchBudgets = async () => {
-      try {
-        const userId = auth.user?.id;
-
-        if (!userId) {
-          return;
-        }
-
-        const response = await axios.get(`/api/fetchBudgets?userId=${userId}`);
-
-        if (response.status === 200) {
-          setBudgets(response.data.budgets);
-        }
-      } catch (error) {
-        console.error("Error fetching budgets: ", error);
-      }
-    };
-
     fetchBudgets();
   }, [auth]);
 
+  const fetchBudgets = async () => {
+    try {
+      const userId = auth.user?.id;
+
+      if (!userId) {
+        return;
+      }
+
+      const response = await axios.get(`/api/fetchBudgets?userId=${userId}`);
+
+      if (response.status === 200) {
+        setBudgets(response.data.budgets);
+      }
+    } catch (error) {
+      console.error("Error fetching budgets: ", error);
+    }
+  };
+
   return (
-    <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      <CreateBudget />
-      <div>
-        {budgets.map((budget) => (
-          <BudgetItem budget={budget} />
-        ))}
-      </div>
+    <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <CreateBudget refreshData={() => fetchBudgets()} />
+      {budgets.map((budget) => (
+        <BudgetItem budget={budget} key={budget._id} />
+      ))}
     </div>
   );
 };
