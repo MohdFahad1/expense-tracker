@@ -1,25 +1,7 @@
-import axios from "axios";
 import { Trash } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const ExpenseListTable = ({ budgetId }) => {
-  const [expenseList, setExpenseList] = useState([]);
-
-  useEffect(() => {
-    fetchExpenseList();
-  }, [budgetId]);
-
-  const fetchExpenseList = async () => {
-    try {
-      const response = await axios.get(`/api/expenselist?budgetId=${budgetId}`);
-      if (response.status === 200) {
-        setExpenseList(response.data.expenses);
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
-
+const ExpenseListTable = ({ expenseList }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
 

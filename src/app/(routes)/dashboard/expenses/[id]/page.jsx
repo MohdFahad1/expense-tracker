@@ -8,9 +8,16 @@ import ExpenseListTable from "../_components/ExpenseListTable";
 
 const Expenses = ({ params }) => {
   const [budgetData, setBudgetData] = useState();
+  const [expenseList, setExpenseList] = useState([]);
+
+  const totalAmount = expenseList.reduce(
+    (sum, expense) => sum + expense.amount,
+    0
+  );
 
   useEffect(() => {
     fetchSingleBudget();
+    fetchExpenseList();
   }, [params]);
 
   const fetchSingleBudget = async () => {
@@ -33,12 +40,29 @@ const Expenses = ({ params }) => {
     }
   };
 
+  const fetchExpenseList = async () => {
+    try {
+      const response = await axios.get(
+        `/api/expenselist?budgetId=${params.id}`
+      );
+      if (response.status === 200) {
+        setExpenseList(response.data.expenses);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
   return (
     <div className="p-5 md:p-10">
       <h2 className="text-3xl font-bold">My Expenses</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
         {budgetData ? (
-          <BudgetItem budget={budgetData} />
+          <BudgetItem
+            budget={budgetData}
+            item={expenseList.length}
+            spentAmount={totalAmount}
+          />
         ) : (
           <div className="h-[145px] w-full bg-slate-200 rounded-lg animate-pulse"></div>
         )}
@@ -47,7 +71,7 @@ const Expenses = ({ params }) => {
       </div>
       <div>
         <h2 className="font-bold text-lg">Latest Expenses</h2>
-        <ExpenseListTable budgetId={params.id} />
+        <ExpenseListTable expenseList={expenseList} />
       </div>
     </div>
   );
