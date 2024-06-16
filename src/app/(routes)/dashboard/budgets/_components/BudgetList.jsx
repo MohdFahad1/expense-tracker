@@ -35,9 +35,16 @@ const BudgetList = () => {
   return (
     <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       <CreateBudget refreshData={() => fetchBudgets()} />
-      {budgets.map((budget) => (
-        <BudgetItem budget={budget} key={budget._id} />
-      ))}
+      {budgets?.length > 0
+        ? budgets.map((budget) => (
+            <BudgetItem budget={budget} key={budget._id} />
+          ))
+        : [1, 2, 3, 4, 5, 6].map((item, index) => (
+            <div
+              key={index}
+              className="w-full bg-slate-200 h-[145px] animate-pulse rounded-lg"
+            ></div>
+          ))}
     </div>
   );
 };
