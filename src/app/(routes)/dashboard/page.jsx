@@ -4,6 +4,7 @@ import { useAuth } from "@/context/auth";
 import React, { useState, useEffect } from "react";
 import CardInfo from "./_components/CardInfo";
 import axios from "axios";
+import Chart from "./_components/Chart";
 
 const Dashboard = () => {
   const [auth] = useAuth();
@@ -53,6 +54,12 @@ const Dashboard = () => {
       <p className="text-gray-500">Here&apos;s what hepping with your money</p>
 
       <CardInfo budgets={budgets} expenses={expenses} />
+      <div className="grid grid-cols-1 md:grid-cols-3 mt-5">
+        <div className="md:col-span-2">
+          <Chart budgets={budgets} expenses={expenses} />
+        </div>
+        <div>Other Content</div>
+      </div>
     </div>
   );
 };
