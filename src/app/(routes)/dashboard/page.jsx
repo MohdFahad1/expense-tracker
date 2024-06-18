@@ -6,11 +6,14 @@ import CardInfo from "./_components/CardInfo";
 import axios from "axios";
 import Chart from "./_components/Chart";
 import BudgetItem from "./budgets/_components/BudgetItem";
+import ExpenseListTable from "./expenses/_components/ExpenseListTable";
 
 const Dashboard = () => {
   const [auth] = useAuth();
   const [budgets, setBudgets] = useState([]);
   const [expenses, setExpenses] = useState([]);
+
+  console.log(expenses);
 
   useEffect(() => {
     fetchBudgets();
@@ -63,11 +66,16 @@ const Dashboard = () => {
       </p>
 
       <CardInfo budgets={budgets} expenses={expenses} />
-      <div className="grid grid-cols-1 md:grid-cols-3 mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 mt-5 gap-5">
         <div className="md:col-span-2">
           <Chart budgets={budgets} expenses={expenses} />
+          <div>
+            <ExpenseListTable expenseList={expenses} />
+          </div>
         </div>
-        <div>
+
+        <div className="flex flex-col gap-5">
+          <h2 className="font-bold text-xl">Latest Budgets</h2>
           {budgets.map((budget) => (
             <BudgetItem budget={budget} />
           ))}

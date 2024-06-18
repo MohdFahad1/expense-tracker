@@ -35,7 +35,7 @@ const BudgetItem = ({ budget }) => {
 
   return (
     <Link href={`/dashboard/expenses/${budget?._id}`}>
-      <div className="p-5  border rounded-lg cursor-pointer hover:shadow-md h-[170px] md:ml-4 ml-0 mb-5 mt-5 md:mt-0">
+      <div className="p-5  border rounded-lg cursor-pointer hover:shadow-md h-[170px]">
         <div className="flex gap-2">
           <div className="flex gap-2 items-center justify-between w-full">
             <h2 className="text-2xl p-3 px-4 bg-slate-100 rounded-full">
