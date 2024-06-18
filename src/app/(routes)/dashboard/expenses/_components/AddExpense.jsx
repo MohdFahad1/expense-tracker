@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { Loader } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
 const AddExpense = ({ budgetId }) => {
   const [name, setName] = useState();
   const [amount, setAmount] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleCreateExpense = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(`/api/expense`, {
         name,
@@ -18,10 +21,12 @@ const AddExpense = ({ budgetId }) => {
 
       if (response) {
         toast(response.data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.log("Error: ", error);
     }
+    setLoading(false);
   };
 
   return (
@@ -49,7 +54,7 @@ const AddExpense = ({ budgetId }) => {
         className="mt-3 w-full"
         onClick={handleCreateExpense}
       >
-        Add Expense
+        {loading ? <Loader className="animate-spin" /> : "Add Expense"}
       </Button>
     </div>
   );
