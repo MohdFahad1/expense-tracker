@@ -41,7 +41,7 @@ const ExpenseListTable = ({ expenseList }) => {
           <h2 className="capitalize">{expense.name}</h2>
           <h2>${expense.amount}</h2>
           <h2>{formatDate(expense.createdAt)}</h2>
-          <h2>
+          <h2 className="cursor-pointer">
             <Trash
               className="text-red-600"
               onClick={() => handleDeleteExpense(expense._id)}
