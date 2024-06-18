@@ -43,7 +43,7 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await axios.get(`/api/allexpenses?userId=${userId}`);
+      const response = await axios.get(`/api/all-expenses?userId=${userId}`);
 
       if (response) {
         setExpenses(response.data.expenses);

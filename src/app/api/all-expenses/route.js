@@ -1,26 +1,43 @@
 import dbConnect from "@/lib/dbConnect";
 import ExpenseModel from "@/models/Expense";
+import BudgetModel from "@/models/Budget";
+import mongoose from "mongoose";
 
 dbConnect();
 
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
-    const budgetId = searchParams.get("budgetId");
+    const userId = searchParams.get("userId");
 
-    if (!budgetId) {
+    if (!userId) {
       return new Response(
         JSON.stringify({
           success: false,
-          message: "Budget Id must be provided",
+          message: "User ID must be provided",
         }),
         { status: 400 }
       );
     }
 
-    const expenses = await ExpenseModel.find({
-      budgetId,
-    });
+    const expenses = await ExpenseModel.aggregate([
+      {
+        $lookup: {
+          from: "budgets",
+          localField: "budgetId",
+          foreignField: "_id",
+          as: "budget",
+        },
+      },
+      {
+        $unwind: "$budget",
+      },
+      {
+        $match: {
+          "budget.userId": new mongoose.Types.ObjectId(userId),
+        },
+      },
+    ]);
 
     if (!expenses || expenses.length === 0) {
       return new Response(

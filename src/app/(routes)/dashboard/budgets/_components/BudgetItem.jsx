@@ -7,8 +7,6 @@ const BudgetItem = ({ budget }) => {
 
   const budgetId = budget._id;
 
-  console.log(budgetId, expenseList);
-
   useEffect(() => {
     fetchExpenseList();
   }, [budget._id]);
@@ -27,7 +25,6 @@ const BudgetItem = ({ budget }) => {
     try {
       const response = await axios.get(`/api/expenselist?budgetId=${budgetId}`);
 
-      console.log(response);
       if (response.status === 200) {
         setExpenseList(response.data.expenses);
       }
