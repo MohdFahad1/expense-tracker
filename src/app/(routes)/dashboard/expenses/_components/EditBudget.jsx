@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { PenBox } from "lucide-react";
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -16,14 +15,40 @@ import {
 } from "@/components/ui/dialog";
 import EmojiPicker from "emoji-picker-react";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { toast } from "sonner";
 
 const EditBudget = ({ budgetData }) => {
-  const [emojiIcon, setEmojiIcon] = useState(budgetData.emoji);
+  const [emojiIcon, setEmojiIcon] = useState(budgetData?.emoji);
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [budgetName, setBudgetName] = useState(budgetData?.name);
   const [amount, setAmount] = useState(budgetData?.amount);
 
-  console.log(budgetData);
+  useEffect(() => {
+    if (budgetData) {
+      setEmojiIcon(budgetData.emoji);
+      setBudgetName(budgetData.name);
+      setAmount(budgetData.amount);
+    }
+  }, [budgetData]);
+
+  const handleUpdateBudget = async () => {
+    try {
+      const response = await axios.put("/api/updatebudget", {
+        name: budgetName,
+        amount,
+        emoji: emojiIcon,
+        budgetId: budgetData._id,
+        userId: budgetData.userId,
+      });
+
+      if (response.status === 200) {
+        toast(response.data.message);
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <div>
@@ -44,21 +69,22 @@ const EditBudget = ({ budgetData }) => {
               >
                 {emojiIcon}
               </Button>
-              <div className="absolute z-20">
-                <EmojiPicker
-                  open={openEmojiPicker}
-                  onEmojiClick={(e) => {
-                    setEmojiIcon(e.emojiIcon);
-                    setOpenEmojiPicker(false);
-                  }}
-                />
-              </div>
+              {openEmojiPicker && (
+                <div className="absolute z-20">
+                  <EmojiPicker
+                    onEmojiClick={(e) => {
+                      setEmojiIcon(e.emoji);
+                      setOpenEmojiPicker(false);
+                    }}
+                  />
+                </div>
+              )}
               <div className="mt-2">
                 <h2 className="text-lg text-black font-semibold my-1">
                   Budget Name
                 </h2>
                 <Input
-                  placeholder="e.g.  Home Decor"
+                  placeholder="e.g. Home Decor"
                   onChange={(e) => setBudgetName(e.target.value)}
                   value={budgetName}
                 />
@@ -68,9 +94,9 @@ const EditBudget = ({ budgetData }) => {
                   Budget Amount
                 </h2>
                 <Input
-                  placeholder="e.g.  $5000"
+                  placeholder="e.g. $5000"
                   type="number"
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => setAmount(Number(e.target.value))}
                   value={amount}
                 />
               </div>
@@ -81,7 +107,7 @@ const EditBudget = ({ budgetData }) => {
               <Button
                 className="w-full mt-5"
                 disabled={!(budgetName && amount)}
-                // onClick={handleCreateBudget}
+                onClick={handleUpdateBudget}
               >
                 Update Budget
               </Button>

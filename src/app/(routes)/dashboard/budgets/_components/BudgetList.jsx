@@ -23,6 +23,7 @@ const BudgetList = () => {
       }
 
       const response = await axios.get(`/api/fetchBudgets?userId=${userId}`);
+      console.log(userId);
 
       if (response.status === 200) {
         setBudgets(response.data.budgets);

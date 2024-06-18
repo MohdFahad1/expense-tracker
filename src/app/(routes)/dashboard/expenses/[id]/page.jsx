@@ -21,8 +21,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import EditBudget from "../_components/EditBudget";
+import { useRouter } from "next/navigation";
 
 const Expenses = ({ params }) => {
+  const router = useRouter();
   const [budgetData, setBudgetData] = useState();
   const [expenseList, setExpenseList] = useState([]);
 
@@ -77,6 +79,7 @@ const Expenses = ({ params }) => {
 
       if (response.status === 200) {
         toast(response.data.message);
+        router.push("/dashboard/budgets");
       } else {
         toast(response.data.message);
       }

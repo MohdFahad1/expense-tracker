@@ -29,16 +29,15 @@ const CreateBudget = ({ refreshData }) => {
 
   const handleCreateBudget = async ({ refreshData }) => {
     try {
-      const res = await axios.post("/api/budget", {
+      const response = await axios.post("/api/budget", {
         name: budgetName,
         amount,
         emoji,
         userId,
       });
 
-      if (res) {
-        refreshData();
-        toast("New Budget Created!");
+      if (response.data.status === 200) {
+        toast(response.data.message);
       }
     } catch (error) {
       console.log("Error: ", error);
@@ -111,5 +110,4 @@ const CreateBudget = ({ refreshData }) => {
     </div>
   );
 };
-
 export default CreateBudget;
