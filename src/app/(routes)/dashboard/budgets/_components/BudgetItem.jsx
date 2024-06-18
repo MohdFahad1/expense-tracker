@@ -25,7 +25,7 @@ const BudgetItem = ({ budget }) => {
 
   const fetchExpenseList = async () => {
     try {
-      const response = await axios.get`/api/expenselist?budgetId=${budgetId}`;
+      const response = await axios.get(`/api/expenselist?budgetId=${budgetId}`);
 
       console.log(response);
       if (response.status === 200) {
@@ -38,7 +38,7 @@ const BudgetItem = ({ budget }) => {
 
   return (
     <Link href={`/dashboard/expenses/${budget?._id}`}>
-      <div className="p-5 border rounded-lg cursor-pointer hover:shadow-md">
+      <div className="p-5  border rounded-lg cursor-pointer hover:shadow-md h-[170px] md:ml-4 ml-0 mb-5 mt-5 md:mt-0">
         <div className="flex gap-2">
           <div className="flex gap-2 items-center justify-between w-full">
             <h2 className="text-2xl p-3 px-4 bg-slate-100 rounded-full">
@@ -65,6 +65,7 @@ const BudgetItem = ({ budget }) => {
             </div>
           </div>
         </div>
+
         <div className="mt-5">
           <div className="flex justify-between mb-1">
             <h2 className="text-xs text-slate-400">${spentAmount} Spent</h2>

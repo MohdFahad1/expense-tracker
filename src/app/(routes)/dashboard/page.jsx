@@ -58,7 +58,9 @@ const Dashboard = () => {
       <h2 className="font-bold text-3xl capitalize">
         Hi, {auth.user?.username} ✌️
       </h2>
-      <p className="text-gray-500">Here&apos;s what hepping with your money</p>
+      <p className="text-gray-500">
+        Here&apos;s what happening with your money
+      </p>
 
       <CardInfo budgets={budgets} expenses={expenses} />
       <div className="grid grid-cols-1 md:grid-cols-3 mt-5">
