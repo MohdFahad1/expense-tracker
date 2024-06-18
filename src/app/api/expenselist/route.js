@@ -18,7 +18,9 @@ export async function GET(req) {
       );
     }
 
-    const expenses = await ExpenseModel.find({ budgetId });
+    const expenses = await ExpenseModel.find({
+      budgetId,
+    });
 
     if (!expenses || expenses.length === 0) {
       return new Response(

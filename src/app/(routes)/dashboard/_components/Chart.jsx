@@ -5,7 +5,7 @@ const Chart = ({ budgets, expenses }) => {
   return (
     <div className="border rounded-lg p-5">
       <h2 className="font-bold text-lg">Budget and Expense Distribution</h2>
-      <div className="w-[300px] md:w-full h-[400px] md:h-auto">
+      <div className="w-[300px] md:w-full h-[400px]">
         <ResponsiveContainer>
           <PieChart>
             <Pie

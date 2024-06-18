@@ -28,11 +28,6 @@ const Expenses = ({ params }) => {
   const [budgetData, setBudgetData] = useState();
   const [expenseList, setExpenseList] = useState([]);
 
-  const totalAmount = expenseList.reduce(
-    (sum, expense) => sum + expense.amount,
-    0
-  );
-
   useEffect(() => {
     fetchSingleBudget();
     fetchExpenseList();
@@ -122,11 +117,7 @@ const Expenses = ({ params }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
         {budgetData ? (
-          <BudgetItem
-            budget={budgetData}
-            item={expenseList.length}
-            spentAmount={totalAmount}
-          />
+          <BudgetItem budget={budgetData} />
         ) : (
           <div className="h-[145px] w-full bg-slate-200 rounded-lg animate-pulse"></div>
         )}

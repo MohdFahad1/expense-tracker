@@ -1,10 +1,39 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const BudgetItem = ({ budget, item, spentAmount }) => {
+const BudgetItem = ({ budget }) => {
+  const [expenseList, setExpenseList] = useState([]);
+
+  const budgetId = budget._id;
+
+  console.log(budgetId, expenseList);
+
+  useEffect(() => {
+    fetchExpenseList();
+  }, [budget._id]);
+
+  const spentAmount = expenseList.reduce(
+    (sum, expense) => sum + expense.amount,
+    0
+  );
+
   const calculateProgressPerc = () => {
     const perc = (spentAmount / budget?.amount) * 100;
     return perc.toFixed(2);
+  };
+
+  const fetchExpenseList = async () => {
+    try {
+      const response = await axios.get`/api/expenselist?budgetId=${budgetId}`;
+
+      console.log(response);
+      if (response.status === 200) {
+        setExpenseList(response.data.expenses);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   return (
@@ -19,7 +48,12 @@ const BudgetItem = ({ budget, item, spentAmount }) => {
               <div>
                 <h2 className=" font-bold capitalize">{budget?.name}</h2>
                 <h2 className="flex items-center gap-1 text-xm text-gray-500">
-                  {item} {item > 1 ? <span>Items</span> : <span>Item</span>}
+                  {expenseList?.length}{" "}
+                  {expenseList?.length > 1 ? (
+                    <span>Items</span>
+                  ) : (
+                    <span>Item</span>
+                  )}
                 </h2>
               </div>
 

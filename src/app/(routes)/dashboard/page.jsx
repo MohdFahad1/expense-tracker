@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import CardInfo from "./_components/CardInfo";
 import axios from "axios";
 import Chart from "./_components/Chart";
+import BudgetItem from "./budgets/_components/BudgetItem";
 
 const Dashboard = () => {
   const [auth] = useAuth();
@@ -36,7 +37,13 @@ const Dashboard = () => {
 
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get("/api/allexpenses");
+      const userId = auth.user?.id;
+
+      if (!userId) {
+        return;
+      }
+
+      const response = await axios.get(`/api/allexpenses?userId=${userId}`);
 
       if (response) {
         setExpenses(response.data.expenses);
@@ -58,7 +65,11 @@ const Dashboard = () => {
         <div className="md:col-span-2">
           <Chart budgets={budgets} expenses={expenses} />
         </div>
-        <div>Other Content</div>
+        <div>
+          {budgets.map((budget) => (
+            <BudgetItem budget={budget} />
+          ))}
+        </div>
       </div>
     </div>
   );
