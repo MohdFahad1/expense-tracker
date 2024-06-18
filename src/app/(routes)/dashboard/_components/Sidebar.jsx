@@ -9,7 +9,7 @@ import React from "react";
 import { UserRound } from "lucide-react";
 
 const Sidebar = () => {
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
 
   const menuList = [
     {
