@@ -35,17 +35,7 @@ const Expenses = () => {
       <h2 className="font-bold text-3xl">My Expenses</h2>
       <p className="font-bold">Latest Expenses</p>
 
-      {expenses.length > 0 ? (
-        <ExpenseListTable expenseList={expenses} />
-      ) : (
-        <div className="mt-5 w-full flex flex-col gap-5">
-          {[1, 2, 3].map((items, index) => (
-            <div key={index}>
-              <div className="h-[30px] w-full bg-slate-200 animate-pulse rounded-lg"></div>
-            </div>
-          ))}
-        </div>
-      )}
+      <ExpenseListTable expenseList={expenses} />
     </div>
   );
 };

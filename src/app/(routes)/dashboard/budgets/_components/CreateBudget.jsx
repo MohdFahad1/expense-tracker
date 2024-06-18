@@ -48,7 +48,7 @@ const CreateBudget = ({ refreshData }) => {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="bg-slate-100 p-10 rounded-md flex flex-col items-center border-2 border-dashed cursor-pointer hover:shadow-md">
+          <div className="bg-slate-100 p-10 rounded-md flex flex-col items-center border-2 border-dashed cursor-pointer hover:shadow-md h-[170px]">
             <h2 className="text-3xl font-bold">+</h2>
             <h1>Create New Budget</h1>
           </div>

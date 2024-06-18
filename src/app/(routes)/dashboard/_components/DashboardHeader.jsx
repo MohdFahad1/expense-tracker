@@ -74,7 +74,7 @@ const DashboardHeader = () => {
     <div className="p-5 border-b-2 shadow-sm flex justify-between items-center">
       <div className="block md:hidden">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetTrigger asChild>
+          <SheetTrigger asChild className="cursor-pointer">
             <Menu />
           </SheetTrigger>
           <SheetContent side="left" className="w-[250px]">

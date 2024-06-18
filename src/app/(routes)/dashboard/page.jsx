@@ -76,9 +76,14 @@ const Dashboard = () => {
 
         <div className="flex flex-col gap-5">
           <h2 className="font-bold text-xl">Latest Budgets</h2>
-          {budgets.map((budget) => (
-            <BudgetItem budget={budget} />
-          ))}
+          {budgets?.length > 0
+            ? budgets.map((budget) => <BudgetItem budget={budget} />)
+            : [1, 2, 3].map((item, index) => (
+                <div
+                  key={index}
+                  className="w-full bg-slate-200 h-[145px] animate-pulse rounded-lg"
+                ></div>
+              ))}
         </div>
       </div>
     </div>
