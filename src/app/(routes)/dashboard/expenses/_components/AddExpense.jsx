@@ -5,9 +5,9 @@ import { Loader } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-const AddExpense = ({ budgetId }) => {
-  const [name, setName] = useState();
-  const [amount, setAmount] = useState();
+const AddExpense = ({ budgetId, refreshData }) => {
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleCreateExpense = async () => {
@@ -21,6 +21,9 @@ const AddExpense = ({ budgetId }) => {
 
       if (response) {
         toast(response.data.message);
+        setName("");
+        setAmount("");
+        refreshData();
         setLoading(false);
       }
     } catch (error) {
@@ -37,6 +40,7 @@ const AddExpense = ({ budgetId }) => {
         <Input
           placeholder="e.g.  Home Decor"
           onChange={(e) => setName(e.target.value)}
+          value={name}
         />
       </div>
       <div className="mt-2">
@@ -47,6 +51,7 @@ const AddExpense = ({ budgetId }) => {
           placeholder="e.g.  $5000"
           type="number"
           onChange={(e) => setAmount(e.target.value)}
+          value={amount}
         />
       </div>
       <Button

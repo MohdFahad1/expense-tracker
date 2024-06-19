@@ -3,7 +3,7 @@ import { Trash } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
-const ExpenseListTable = ({ expenseList }) => {
+const ExpenseListTable = ({ expenseList, fetchExpenseData, refreshData }) => {
   const handleDeleteExpense = async (expenseId) => {
     try {
       const response = await axios.delete(
@@ -12,9 +12,11 @@ const ExpenseListTable = ({ expenseList }) => {
 
       if (response.status === 200) {
         toast(response.data.message);
+        refreshData();
+        fetchExpenseData();
       }
     } catch (error) {
-      console.log("Error: ", error);
+      console.error("Error deleting expense: ", error);
     }
   };
 

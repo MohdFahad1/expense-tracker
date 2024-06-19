@@ -13,8 +13,6 @@ const Dashboard = () => {
   const [budgets, setBudgets] = useState([]);
   const [expenses, setExpenses] = useState([]);
 
-  console.log(expenses);
-
   useEffect(() => {
     fetchBudgets();
     fetchExpenses();
@@ -48,11 +46,11 @@ const Dashboard = () => {
 
       const response = await axios.get(`/api/all-expenses?userId=${userId}`);
 
-      if (response) {
+      if (response.status === 200) {
         setExpenses(response.data.expenses);
       }
     } catch (error) {
-      console.log("Error: ", error);
+      console.error("Error fetching expenses: ", error);
     }
   };
 
@@ -70,14 +68,19 @@ const Dashboard = () => {
         <div className="md:col-span-2">
           <Chart budgets={budgets} expenses={expenses} />
           <div>
-            <ExpenseListTable expenseList={expenses} />
+            <ExpenseListTable
+              expenseList={expenses}
+              fetchExpenseData={fetchExpenses}
+            />
           </div>
         </div>
 
         <div className="flex flex-col gap-5">
           <h2 className="font-bold text-xl">Latest Budgets</h2>
           {budgets?.length > 0
-            ? budgets.map((budget) => <BudgetItem budget={budget} />)
+            ? budgets.map((budget) => (
+                <BudgetItem budget={budget} key={budget._id} />
+              ))
             : [1, 2, 3].map((item, index) => (
                 <div
                   key={index}

@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { toast } from "sonner";
 
-const EditBudget = ({ budgetData }) => {
+const EditBudget = ({ budgetData, refreshData }) => {
   const [emojiIcon, setEmojiIcon] = useState(budgetData?.emoji);
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [budgetName, setBudgetName] = useState(budgetData?.name);
@@ -44,6 +44,7 @@ const EditBudget = ({ budgetData }) => {
 
       if (response.status === 200) {
         toast(response.data.message);
+        refreshData();
       }
     } catch (error) {
       console.log("Error:", error);

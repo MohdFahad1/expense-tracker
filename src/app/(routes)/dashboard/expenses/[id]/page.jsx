@@ -6,7 +6,7 @@ import axios from "axios";
 import AddExpense from "../_components/AddExpense";
 import ExpenseListTable from "../_components/ExpenseListTable";
 import { Button } from "@/components/ui/button";
-import { PenBox, Trash } from "lucide-react";
+import { ArrowLeft, Trash } from "lucide-react";
 
 import {
   AlertDialog,
@@ -22,6 +22,7 @@ import {
 import { toast } from "sonner";
 import EditBudget from "../_components/EditBudget";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Expenses = ({ params }) => {
   const router = useRouter();
@@ -86,10 +87,15 @@ const Expenses = ({ params }) => {
   return (
     <div className="p-5 md:p-10">
       <div className="flex justify-between">
-        <h2 className="text-3xl font-bold">My Expenses</h2>
+        <h2 className="text-2xl md:text-3xl font-bold flex items-center gap-1">
+          <Link href={"/dashboard/budgets"}>
+            <ArrowLeft />
+          </Link>{" "}
+          My Expenses
+        </h2>
 
         <div className="flex items-center gap-2">
-          <EditBudget budgetData={budgetData} />
+          <EditBudget budgetData={budgetData} refreshData={fetchSingleBudget} />
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -122,11 +128,14 @@ const Expenses = ({ params }) => {
           <div className="h-[145px] w-full bg-slate-200 rounded-lg animate-pulse"></div>
         )}
 
-        <AddExpense budgetId={params.id} />
+        <AddExpense budgetId={params.id} refreshData={fetchExpenseList} />
       </div>
       <div>
         <h2 className="font-bold text-lg">Latest Expenses</h2>
-        <ExpenseListTable expenseList={expenseList} />
+        <ExpenseListTable
+          expenseList={expenseList}
+          refreshData={fetchExpenseList}
+        />
       </div>
     </div>
   );

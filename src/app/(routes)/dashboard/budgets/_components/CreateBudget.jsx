@@ -22,12 +22,12 @@ const CreateBudget = ({ refreshData }) => {
   const [auth] = useAuth();
   const [emoji, setEmoji] = useState("😊");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
-  const [budgetName, setBudgetName] = useState();
-  const [amount, setAmount] = useState();
+  const [budgetName, setBudgetName] = useState("");
+  const [amount, setAmount] = useState("");
 
   const userId = auth.user?.id;
 
-  const handleCreateBudget = async ({ refreshData }) => {
+  const handleCreateBudget = async () => {
     try {
       const response = await axios.post("/api/budget", {
         name: budgetName,
@@ -36,8 +36,11 @@ const CreateBudget = ({ refreshData }) => {
         userId,
       });
 
-      if (response.data.status === 200) {
+      if (response.data.success) {
         toast(response.data.message);
+        setBudgetName(""); // Reset the budget name
+        setAmount(""); // Reset the amount
+        refreshData();
       }
     } catch (error) {
       console.log("Error: ", error);
@@ -64,21 +67,23 @@ const CreateBudget = ({ refreshData }) => {
               >
                 {emoji}
               </Button>
-              <div className="absolute z-20">
-                <EmojiPicker
-                  open={openEmojiPicker}
-                  onEmojiClick={(e) => {
-                    setEmoji(e.emoji);
-                    setOpenEmojiPicker(false);
-                  }}
-                />
-              </div>
+              {openEmojiPicker && (
+                <div className="absolute z-20">
+                  <EmojiPicker
+                    onEmojiClick={(e) => {
+                      setEmoji(e.emoji);
+                      setOpenEmojiPicker(false);
+                    }}
+                  />
+                </div>
+              )}
               <div className="mt-2">
                 <h2 className="text-lg text-black font-semibold my-1">
                   Budget Name
                 </h2>
                 <Input
-                  placeholder="e.g.  Home Decor"
+                  value={budgetName}
+                  placeholder="e.g. Home Decor"
                   onChange={(e) => setBudgetName(e.target.value)}
                 />
               </div>
@@ -87,7 +92,8 @@ const CreateBudget = ({ refreshData }) => {
                   Budget Amount
                 </h2>
                 <Input
-                  placeholder="e.g.  $5000"
+                  value={amount}
+                  placeholder="e.g. $5000"
                   type="number"
                   onChange={(e) => setAmount(e.target.value)}
                 />

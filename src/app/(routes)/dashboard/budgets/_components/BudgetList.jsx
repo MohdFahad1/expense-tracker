@@ -11,10 +11,10 @@ const BudgetList = () => {
   const [budgets, setBudgets] = useState([]);
 
   useEffect(() => {
-    fetchBudgets();
+    fetchBudgetList();
   }, [auth]);
 
-  const fetchBudgets = async () => {
+  const fetchBudgetList = async () => {
     try {
       const userId = auth.user?.id;
 
@@ -23,7 +23,6 @@ const BudgetList = () => {
       }
 
       const response = await axios.get(`/api/fetchBudgets?userId=${userId}`);
-      console.log(userId);
 
       if (response.status === 200) {
         setBudgets(response.data.budgets);
@@ -35,7 +34,7 @@ const BudgetList = () => {
 
   return (
     <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <CreateBudget refreshData={() => fetchBudgets()} />
+      <CreateBudget refreshData={fetchBudgetList} />
       {budgets?.length > 0
         ? budgets.map((budget) => (
             <BudgetItem budget={budget} key={budget._id} />

@@ -19,10 +19,13 @@ import {
   PiggyBank,
   ReceiptText,
   ShieldCheck,
+  UserRound,
 } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/context/auth";
 
 const DashboardHeader = () => {
+  const [auth] = useAuth();
   const router = useRouter();
   const path = usePathname();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -97,6 +100,18 @@ const DashboardHeader = () => {
                       </h2>
                     </Link>
                   ))}
+                  <div className="fixed bottom-10">
+                    <div className="flex items-center gap-2 cursor-pointer">
+                      <UserRound
+                        className="border-2 border-primary rounded-full"
+                        size={30}
+                        color="rgb(72, 69, 210)"
+                      />
+                      <h1 className="capitalize text-xl font-medium text-gray-500">
+                        {auth.user?.username}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
               </SheetDescription>
             </SheetHeader>
