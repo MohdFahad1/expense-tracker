@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,7 @@ const page = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [auth, setAuth] = useAuth();
 
@@ -20,6 +21,7 @@ const page = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const res = await axios.post("/api/sign-in", {
         email,
         password,
@@ -28,7 +30,6 @@ const page = () => {
       console.log("RESPONSE: ", res);
 
       if (res.status === 200) {
-        toast(res.data.message);
         setAuth({
           ...auth,
           user: res.data.tokenData,
@@ -36,12 +37,20 @@ const page = () => {
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
         router.push("/dashboard");
+        toast(res.data.message);
       } else {
         toast(res.data.message);
       }
     } catch (error) {
       console.log("Error: ", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const getTestUser = () => {
+    setEmail("fahad@gmail.com");
+    setPassword("1234567");
   };
   return (
     <>
@@ -107,13 +116,26 @@ const page = () => {
                   <div>
                     <button
                       type="submit"
-                      className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                      disabled={!(email && password)}
+                      className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80 cursor-pointer"
                     >
-                      Sign In <ArrowRight className="ml-2" size={16} />
+                      {loading ? (
+                        <Loader className="animate-spin" />
+                      ) : (
+                        <span className="flex items-center">
+                          Sign In <ArrowRight className="ml-2" size={16} />
+                        </span>
+                      )}
                     </button>
                   </div>
                 </div>
               </form>
+              <button
+                className="mt-5 inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                onClick={getTestUser}
+              >
+                Get Test User
+              </button>
             </div>
           </div>
           <div className="h-full w-full hidden lg:block">
