@@ -10,7 +10,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const page = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
   const [username, setUsername] = useState("");
@@ -145,4 +145,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignUpPage;

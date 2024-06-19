@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useAuth } from "@/context/auth";
 
-const page = () => {
+const SignInPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -153,4 +153,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignInPage;
