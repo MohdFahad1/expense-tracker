@@ -119,7 +119,9 @@ const DashboardHeader = () => {
         </Sheet>
       </div>
       <div></div>
-      <Button onClick={handleLogout}>Logout</Button>
+      <Button onClick={handleLogout} className="bg-red-500 hover:bg-red-600">
+        Logout
+      </Button>
     </div>
   );
 };
