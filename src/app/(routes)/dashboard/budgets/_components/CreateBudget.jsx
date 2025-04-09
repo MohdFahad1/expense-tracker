@@ -38,8 +38,8 @@ const CreateBudget = ({ refreshData }) => {
 
       if (response.data.success) {
         toast(response.data.message);
-        setBudgetName(""); // Reset the budget name
-        setAmount(""); // Reset the amount
+        setBudgetName("");
+        setAmount("");
         refreshData();
       }
     } catch (error) {

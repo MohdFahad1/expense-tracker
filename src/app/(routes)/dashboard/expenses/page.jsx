@@ -30,6 +30,7 @@ const Expenses = () => {
       console.log("Error: ", error);
     }
   };
+
   return (
     <div className="p-5 md:p-10">
       <h2 className="font-bold text-3xl">My Expenses</h2>

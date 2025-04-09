@@ -1,7 +1,7 @@
 import UserModel from "@/models/User";
 import { comparePassword } from "@/helpers/authHelper";
 import dbConnect from "@/lib/dbConnect";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 dbConnect();
